@@ -9,29 +9,28 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="800.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.brendanrendijsca2.RouteFinderController">
-   <ImageView fx:id="imgOrgViewer" fitHeight="428.0" fitWidth="506.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="ImageView" fitHeight="428.0" fitWidth="506.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
 
  <Label fx:id="welcomeText" />
- <Button layoutX="643.0" layoutY="566.0" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
+ <Button layoutX="643.0" layoutY="566.0" onAction="#ShowSingleRoute" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
       <font>
          <Font size="13.0" />
       </font></Button>
    <Label fx:id="number" layoutX="172.0" layoutY="511.0" prefHeight="26.0" prefWidth="53.0" style="-fx-text-fill: #FFFFFF;" />
-   <ComboBox layoutX="631.0" layoutY="21.0" prefWidth="150.0" promptText="Select Image" style="-fx-background-color: #FFA500;" />
-   <ComboBox layoutX="631.0" layoutY="478.0" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
-   <ComboBox layoutX="631.0" layoutY="512.0" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
-   <Button layoutX="642.0" layoutY="603.0" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
+   <ComboBox fx:id="startPoint" layoutX="631.0" layoutY="478.0" onAction="#SelectStartPoint" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
+   <ComboBox fx:id="EndPoint" layoutX="631.0" layoutY="512.0" onAction="#SelectEndPoint" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
+   <Button layoutX="642.0" layoutY="603.0" onAction="#ShowFastestRoute" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
    <ListView layoutX="55.0" layoutY="503.0" prefHeight="200.0" prefWidth="422.0" />
-   <Button layoutX="657.0" layoutY="56.0" style="-fx-background-color: #FFA500;" text="Upload Image" textFill="#141414">
+   <Button layoutX="657.0" layoutY="56.0" onAction="#UploadImage" style="-fx-background-color: #FFA500;" text="Upload Image" textFill="#141414">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
-   <Button layoutX="634.0" layoutY="646.0" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
+   <Button layoutX="634.0" layoutY="646.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
       <font>
          <Font size="13.0" />
       </font>

@@ -10,7 +10,62 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteFinderController {
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+
+    public class RouteFinderController {
+
+        @FXML
+        private ComboBox<?> EndPoint;
+
+        @FXML
+        private ImageView ImageView;
+
+        @FXML
+        private Label number;
+
+        @FXML
+        private ComboBox<?> startPoint;
+
+        @FXML
+        private Label welcomeText;
+
+        @FXML
+        void SelectEndPoint(ActionEvent event) {
+
+        }
+
+        @FXML
+        void SelectStartPoint(ActionEvent event) {
+
+        }
+
+        @FXML
+        void ShowFastestRoute(ActionEvent event) {
+
+        }
+
+        @FXML
+        void ShowMultipleRoutes(ActionEvent event) {
+
+        }
+
+        @FXML
+        void ShowSingleRoute(ActionEvent event) {
+
+        }
+
+        @FXML
+        void UploadImage(ActionEvent event) {
+
+        }
+
+
+
     List<Station> stationList = new ArrayList<>();
 
 
