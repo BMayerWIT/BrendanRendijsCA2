@@ -79,6 +79,4 @@ import javafx.scene.image.ImageView;
             }
             bufferedReader.close();
     }
-
-
 }
