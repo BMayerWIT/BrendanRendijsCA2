@@ -77,8 +77,7 @@ import javafx.scene.image.ImageView;
                 startPoint.getItems().add(splitArray[3]);
                 EndPoint.getItems().add(splitArray[3]);
             }
-            System.out.println(stationList);
-
+            bufferedReader.close();
     }
 
 
