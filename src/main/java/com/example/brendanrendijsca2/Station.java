@@ -14,6 +14,10 @@ public class Station {
         this.stationName = stationName;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     public String toString() {
         return ID + ", " + latitude + ", " + longitude + ", " + stationName + "\n";
     }
