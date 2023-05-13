@@ -3,21 +3,23 @@ package com.example.brendanrendijsca2;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 
-    public class RouteFinderController {
+
+public class RouteFinderController {
 
         @FXML
         private ComboBox<?> EndPoint;
@@ -63,7 +65,7 @@ import javafx.scene.image.ImageView;
         void UploadImage(ActionEvent event) {
 
         }
-
+    Image image;
 
 
     List<Station> stationList = new ArrayList<>();
@@ -95,6 +97,8 @@ import javafx.scene.image.ImageView;
         }
         return stationList;
     }
+
+
 
 
 }

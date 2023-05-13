@@ -4,12 +4,16 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="800.0" styleClass="anchor-pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.brendanrendijsca2.RouteFinderController">
-   <ImageView fx:id="ImageView" fitHeight="428.0" fitWidth="506.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
+   <ImageView fx:id="ImageView" fitHeight="326.0" fitWidth="506.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../images/London_Underground_Zone_1.png" />
+      </image></ImageView>
 
  <Label fx:id="welcomeText" />
  <Button layoutX="643.0" layoutY="566.0" onAction="#ShowSingleRoute" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
@@ -24,8 +28,8 @@
          <Font size="13.0" />
       </font>
    </Button>
-   <ListView layoutX="55.0" layoutY="503.0" prefHeight="200.0" prefWidth="422.0" />
-   <Button layoutX="657.0" layoutY="56.0" onAction="#UploadImage" style="-fx-background-color: #FFA500;" text="Upload Image" textFill="#141414">
+   <ListView layoutX="55.0" layoutY="349.0" prefHeight="200.0" prefWidth="422.0" />
+   <Button layoutX="657.0" layoutY="56.0" onMouseClicked="#UploadImage" style="-fx-background-color: #FFA500;" text="Upload Image" textFill="#141414">
       <font>
          <Font size="13.0" />
       </font>
