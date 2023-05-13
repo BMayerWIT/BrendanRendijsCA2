@@ -12,22 +12,26 @@
    <ImageView fx:id="imgOrgViewer" fitHeight="428.0" fitWidth="506.0" layoutX="13.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" />
 
  <Label fx:id="welcomeText" />
- <Button layoutX="357.0" layoutY="716.0" style="-fx-background-color: #FFA500;" text="Show Route" textFill="#141414">
+ <Button layoutX="643.0" layoutY="566.0" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
       <font>
          <Font size="13.0" />
       </font></Button>
    <Label fx:id="number" layoutX="172.0" layoutY="511.0" prefHeight="26.0" prefWidth="53.0" style="-fx-text-fill: #FFFFFF;" />
-   <ListView layoutX="282.0" layoutY="498.0" prefHeight="200.0" prefWidth="237.0" />
    <ComboBox layoutX="631.0" layoutY="21.0" prefWidth="150.0" promptText="Select Image" style="-fx-background-color: #FFA500;" />
-   <ComboBox layoutX="636.0" layoutY="512.0" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
-   <ComboBox layoutX="636.0" layoutY="564.0" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
-   <Button layoutX="90.0" layoutY="716.0" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
+   <ComboBox layoutX="631.0" layoutY="478.0" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
+   <ComboBox layoutX="631.0" layoutY="512.0" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
+   <Button layoutX="642.0" layoutY="603.0" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
-   <ListView layoutX="36.0" layoutY="498.0" prefHeight="200.0" prefWidth="237.0" />
+   <ListView layoutX="55.0" layoutY="503.0" prefHeight="200.0" prefWidth="422.0" />
    <Button layoutX="657.0" layoutY="56.0" style="-fx-background-color: #FFA500;" text="Upload Image" textFill="#141414">
+      <font>
+         <Font size="13.0" />
+      </font>
+   </Button>
+   <Button layoutX="634.0" layoutY="646.0" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
       <font>
          <Font size="13.0" />
       </font>
