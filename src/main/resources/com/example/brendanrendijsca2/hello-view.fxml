@@ -28,15 +28,11 @@
          <Font size="13.0" />
       </font>
    </Button>
-   <ListView layoutX="190.0" layoutY="460.0" prefHeight="200.0" prefWidth="422.0" />
+   <ListView fx:id="routeView" layoutX="190.0" layoutY="460.0" prefHeight="200.0" prefWidth="422.0" />
    <Button layoutX="634.0" layoutY="646.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
-   <Button layoutX="669.0" layoutY="433.0" onAction="#LoadData" style="-fx-background-color: #FFA500;" text="Load Data" textFill="#141414">
-      <font>
-         <Font size="13.0" />
-      </font>
-   </Button>
+   <Button layoutX="671.0" layoutY="448.0" mnemonicParsing="false" onAction="#LoadData" style="-fx-background-color: #FFA500;" text="Load Data" />
 </AnchorPane>

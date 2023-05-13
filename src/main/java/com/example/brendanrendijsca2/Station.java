@@ -18,6 +18,18 @@ public class Station {
         return ID;
     }
 
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
     public String toString() {
         return ID + ", " + latitude + ", " + longitude + ", " + stationName + "\n";
     }

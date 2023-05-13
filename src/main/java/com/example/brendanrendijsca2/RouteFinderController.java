@@ -7,10 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 import javafx.event.ActionEvent;
@@ -53,8 +50,66 @@ import javafx.scene.image.ImageView;
         }
 
         @FXML
-        void ShowSingleRoute(ActionEvent event) {
+        public List<Station> ShowSingleRoute(ActionEvent event) {
+            int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
+            int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
+            GraphNodes<Station> startNode = stationList.get(startStationIndex);
+            GraphNodes<Station> endNode = stationList.get(endStationIndex);
+            Set<GraphNodes<Station>> visitedNodes = new HashSet<>();
+            Stack<GraphNodes<Station>> stack = new Stack<>();
+            Map<GraphNodes<Station>, GraphNodes<Station>> parents = new HashMap<>();
 
+
+            if (startNode == null || endNode == null) {
+                System.out.println("Start or end station not found");
+                return null;
+            }
+
+            if (startNode.equals(endNode)) {
+                System.out.println("Start and end stations are the same");
+                return null;
+            }
+
+            stack.push(startNode);
+            visitedNodes.add(startNode);
+
+            while (!stack.isEmpty()) {
+                GraphNodes<Station> currentNode = stack.pop();
+
+                if (currentNode.equals(endNode)) {
+                    // Found the destination station, construct and return the path
+                    List<Station> path = new ArrayList<>();
+                    while (currentNode != startNode) {
+                        path.add(currentNode.station);
+                        currentNode = parents.get(currentNode);
+                    }
+                    path.add(startNode.station);
+                    Collections.reverse(path);
+
+                    // Print the route
+                    System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+
+                    routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+                    for (Station station : path) {
+                        System.out.println("- " + station.getStationName());
+                        routeView.getItems().add("- " + station.getStationName());
+                    }
+
+                    return path;
+                }
+
+                for (GraphNodes<Station> neighbor : currentNode.neighbours) {
+                    if (!visitedNodes.contains(neighbor)) {
+                        stack.push(neighbor);
+                        visitedNodes.add(neighbor);
+                        parents.put(neighbor, currentNode);
+                    }
+                }
+            }
+
+            // No valid route found
+            System.out.println("No valid route found");
+            return null;
         }
 
         @FXML
@@ -70,24 +125,22 @@ import javafx.scene.image.ImageView;
     List<GraphNodes<Station>> stationList = new ArrayList<>();
     Map<Integer, List<Station>> stationsById = new HashMap<>();
     @FXML
-    public void ReadCSVStationData(ActionEvent event) throws Exception{ //fillListWithStations
+    public void ReadDataFromCSV() throws Exception{ //fillListWithStations
         String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\London.csv";
         String splitCSVBy = ",";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
             String line ="";
-            line = bufferedReader.readLine();
             while ((line = bufferedReader.readLine()) != null) {
                 String [] splitArray = line.split(splitCSVBy);
-
-                Station station = new Station(Integer.parseInt(splitArray[0]), Float.parseFloat(splitArray[1]), Float.parseFloat(splitArray[2]), splitArray[3]);
-                GraphNodes<Station> stationGN = new GraphNodes<>(station);
-                stationList.add(stationGN);
-                createNodeEdges();
-                startPoint.getItems().add(splitArray[3]);
-                EndPoint.getItems().add(splitArray[3]);
+                if (splitArray.length > 4 && ("1".equals(splitArray[4]) || "1.5".equals(splitArray[4]))) {
+                    Station station = new Station(Integer.parseInt(splitArray[0]), Float.parseFloat(splitArray[1]), Float.parseFloat(splitArray[2]), splitArray[3]);
+                    GraphNodes<Station> stationGN = new GraphNodes<>(station);
+                    stationList.add(stationGN);
+                    startPoint.getItems().add(splitArray[3]);
+                    EndPoint.getItems().add(splitArray[3]);
+                }
             }
-            createNodeEdges();
             bufferedReader.close();
     }
 
@@ -136,7 +189,7 @@ import javafx.scene.image.ImageView;
                     stationsById.put(lineNumber, stationLineNumber);
                 }
                 Station startStation = startNode.station;
-                Station endStation = destinationNode.station;
+                Station endStation = destinationNode != null ? destinationNode.station : null;
 
                 if (!stationLineNumber.contains(startStation)) {
                     stationLineNumber.add(startStation);
@@ -148,6 +201,13 @@ import javafx.scene.image.ImageView;
 
         }
     }
+        @FXML
+        private void LoadData(ActionEvent event) throws Exception {
+            ReadDataFromCSV();
+            createNodeEdges();
+
+
+        }
 
 
 }
