@@ -53,6 +53,11 @@ import javafx.scene.image.ImageView;
         }
 
         @FXML
+        void LoadData(ActionEvent event){
+
+        }
+
+        @FXML
         void UploadImage(ActionEvent event) {
 
         }
@@ -62,7 +67,7 @@ import javafx.scene.image.ImageView;
     List<GraphNodes<Station>> stationList = new ArrayList<>();
     @FXML
     public void ShowFastestRoute(ActionEvent event) throws Exception{ //fillListWithStations
-        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\London.csv";
+        String filepath = "src/main/java/com/example/brendanrendijsca2/London.csv";
         String splitCSVBy = ",";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
