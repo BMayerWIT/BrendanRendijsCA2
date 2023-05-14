@@ -13,9 +13,10 @@ import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.paint.Color;
 
-    public class RouteFinderController {
+public class RouteFinderController {
 
         @FXML
         private ComboBox<String> EndPoint;
@@ -49,6 +50,7 @@ import javafx.scene.image.ImageView;
 
         }
 
+
         @FXML
         public List<Station> ShowSingleRoute(ActionEvent event) {
             int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
@@ -58,6 +60,10 @@ import javafx.scene.image.ImageView;
             Set<GraphNodes<Station>> visitedNodes = new HashSet<>();
             Stack<GraphNodes<Station>> stack = new Stack<>();
             Map<GraphNodes<Station>, GraphNodes<Station>> parents = new HashMap<>();
+
+            setGrey();
+
+
 
 
             if (startNode == null || endNode == null) {
@@ -105,17 +111,23 @@ import javafx.scene.image.ImageView;
                         parents.put(neighbor, currentNode);
                     }
                 }
+
+
             }
+
+
+
+
 
             // No valid route found
             System.out.println("No valid route found");
             return null;
-        }
 
-        @FXML
-        void UploadImage(ActionEvent event) {
+
 
         }
+
+
         public void ShowFastestRoute(ActionEvent event) {
 
         }
@@ -207,6 +219,27 @@ import javafx.scene.image.ImageView;
             createNodeEdges();
 
 
+        }
+
+        public void setGrey() {
+            Image originalImage = ImageView.getImage();
+
+            int width = (int) originalImage.getWidth();
+            int height = (int) originalImage.getHeight();
+
+            WritableImage grayImage = new WritableImage(width, height);
+            PixelWriter pixelWriter = grayImage.getPixelWriter();
+            PixelReader pixelReader = originalImage.getPixelReader();
+
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    Color color = pixelReader.getColor(x, y);
+                    double gray = 0.2126 * color.getRed() + 0.7152 * color.getGreen() + 0.0722 * color.getBlue();
+                    pixelWriter.setColor(x, y, new Color(gray, gray, gray, color.getOpacity()));
+                }
+            }
+
+            ImageView.setImage(grayImage);
         }
 
 
