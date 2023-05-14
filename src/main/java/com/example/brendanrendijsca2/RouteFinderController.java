@@ -13,7 +13,8 @@ import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.paint.Color;
 
 import static com.example.brendanrendijsca2.GraphNodes.FindAllPathsDepthFirst;
 
@@ -287,7 +288,7 @@ public class RouteFinderController {
             createAdjacentNodeEdges();
 
 
-        }
+
 
 
 }
