@@ -29,7 +29,7 @@
       </font>
    </Button>
    <ListView fx:id="routeView" layoutX="190.0" layoutY="460.0" prefHeight="200.0" prefWidth="422.0" />
-   <Button layoutX="634.0" layoutY="646.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
+   <Button layoutX="635.0" layoutY="640.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
       <font>
          <Font size="13.0" />
       </font>
