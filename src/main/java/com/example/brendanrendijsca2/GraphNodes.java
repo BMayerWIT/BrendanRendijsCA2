@@ -27,6 +27,27 @@ public class GraphNodes<T> {
         }
     }
 
+    public static void traverseGraphDepthFirst(GraphNodes<?> from, List<GraphNodes<?>> encountered ){
+        System.out.println(from.station);
+        if(encountered==null) encountered=new ArrayList<>(); //First node so create new (empty) encountered list
+        encountered.add(from);
+        for(GraphNodes<?> adjNode : from.neighbours)
+            if(!encountered.contains(adjNode)) traverseGraphDepthFirst(adjNode, encountered );
+    }
+
+    public static void traverseGraphBreadthFirst(List<GraphNodes<?>> agenda, List<GraphNodes<?>> encountered ){
+        if(agenda.isEmpty()) return;
+        GraphNodes<?> next=agenda.remove(0);
+        System.out.println(next.station);
+        if(encountered==null) encountered=new ArrayList<>(); //First node so create new (empty) encountered list
+        encountered.add(next);
+        for(GraphNodes<?> adjNode : next.neighbours)
+            if(!encountered.contains(adjNode) && !agenda.contains(adjNode)) agenda.add(adjNode); //Add children to
+//end of agenda
+        traverseGraphBreadthFirst(agenda, encountered ); //Tail call
+    }
+
+
     @Override
     public String toString() {
         return "Graphnodes :" + station;
