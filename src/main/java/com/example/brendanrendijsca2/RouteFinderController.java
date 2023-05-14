@@ -15,7 +15,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 
-    public class RouteFinderController {
+import static com.example.brendanrendijsca2.GraphNodes.FindAllPathsDepthFirst;
+
+public class RouteFinderController {
 
         @FXML
         private ComboBox<String> EndPoint;
@@ -45,78 +47,170 @@ import javafx.scene.image.ImageView;
         }
 
         @FXML
-        void ShowMultipleRoutes(ActionEvent event) {
+        public void ShowMultipleRoutes(ActionEvent event) {
+            routeView.getItems().clear();
 
-        }
-
-        @FXML
-        public List<Station> ShowSingleRoute(ActionEvent event) {
+            // Get the selected start and end stations from the UI
             int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
             int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
+
+            // Get the start and end nodes from the station list using their indices
             GraphNodes<Station> startNode = stationList.get(startStationIndex);
             GraphNodes<Station> endNode = stationList.get(endStationIndex);
-            Set<GraphNodes<Station>> visitedNodes = new HashSet<>();
-            Stack<GraphNodes<Station>> stack = new Stack<>();
-            Map<GraphNodes<Station>, GraphNodes<Station>> parents = new HashMap<>();
+
+            List<List<GraphNodes<Station>>> allPaths = GraphNodes.FindAllPathsDepthFirst(startNode, null, endNode.station);
+
+            if (allPaths == null || allPaths.isEmpty()) {
+                System.out.println("No route found from " + startNode + " to " + endNode);
+                return;
+            }
+
+            System.out.println("Multiple routes found from " + startNode + " to " + endNode + ":");
+            int count = 1;
+            for (List<GraphNodes<Station>> path : allPaths) {
+                System.out.println("Route " + count + ":");
+                for (GraphNodes<Station> node : path) {
+                    System.out.println(node.station);
+                }
+                count++;
+            }
+
+             //Construct the list of stations in each path and add to the list view
+            List<List<Station>> stationPaths = new ArrayList<>();
+            for (List<GraphNodes<Station>> path : allPaths) {
+                List<Station> stationPath = new ArrayList<>();
+                for (GraphNodes<Station> node : path) {
+                    stationPath.add(node.station);
+                }
+                stationPaths.add(stationPath);
+            }
+            routeView.getItems().addAll(stationPaths);
+        }
 
 
+
+
+
+
+
+
+
+    @FXML
+        public List<Station> ShowSingleRoute(ActionEvent event) {
+            //clear list view
+            routeView.getItems().clear();
+
+            // Get the selected start and end stations from the UI
+            int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
+            int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
+
+            // Get the start and end nodes from the station list using their indices
+            GraphNodes<Station> startNode = stationList.get(startStationIndex);
+            GraphNodes<Station> endNode = stationList.get(endStationIndex);
+
+            // Check if start and end nodes exist
             if (startNode == null || endNode == null) {
                 System.out.println("Start or end station not found");
                 return null;
             }
 
+            // Check if start and end nodes are the same
             if (startNode.equals(endNode)) {
                 System.out.println("Start and end stations are the same");
                 return null;
             }
 
-            stack.push(startNode);
-            visitedNodes.add(startNode);
+            // Traverse the graph using BFS
+            List<GraphNodes<Station>> path = GraphNodes.TraverseGraphBreadthFirst(startNode, endNode);
 
-            while (!stack.isEmpty()) {
-                GraphNodes<Station> currentNode = stack.pop();
-
-                if (currentNode.equals(endNode)) {
-                    // Found the destination station, construct and return the path
-                    List<Station> path = new ArrayList<>();
-                    while (currentNode != startNode) {
-                        path.add(currentNode.station);
-                        currentNode = parents.get(currentNode);
-                    }
-                    path.add(startNode.station);
-                    Collections.reverse(path);
-
-                    // Print the route
-                    System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
-
-                    routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
-                    for (Station station : path) {
-                        System.out.println("- " + station.getStationName());
-                        routeView.getItems().add("- " + station.getStationName());
-                    }
-
-                    return path;
-                }
-
-                for (GraphNodes<Station> neighbor : currentNode.neighbours) {
-                    if (!visitedNodes.contains(neighbor)) {
-                        stack.push(neighbor);
-                        visitedNodes.add(neighbor);
-                        parents.put(neighbor, currentNode);
-                    }
-                }
+            // If the path is null, no route exists between the two stations
+            if (path == null) {
+                System.out.println("No route exists between " + startNode.station.getStationName() + " and " + endNode.station.getStationName());
+                return null;
             }
 
-            // No valid route found
-            System.out.println("No valid route found");
-            return null;
+            // Construct the list of stations in the path
+            List<Station> stationPath = new ArrayList<>();
+            for (GraphNodes<Station> node : path) {
+                stationPath.add(node.station);
+            }
+
+            // Print the route
+            System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+
+            // Add the route to the UI list view
+            routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+            for (Station station : stationPath) {
+                System.out.println("- " + station.getStationName());
+                routeView.getItems().add("- " + station.getStationName());
+            }
+
+            // Return the path
+            return stationPath;
         }
+
+
+
+
+
+
+
 
         @FXML
         void UploadImage(ActionEvent event) {
 
         }
-        public void ShowFastestRoute(ActionEvent event) {
+        public List<Station> ShowFastestRoute(ActionEvent event) {
+            //clear list view
+            routeView.getItems().clear();
+
+            // Get the selected start and end stations from the UI
+            int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
+            int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
+
+            // Get the start and end nodes from the station list using their indices
+            GraphNodes<Station> startNode = stationList.get(startStationIndex);
+            GraphNodes<Station> endNode = stationList.get(endStationIndex);
+
+            // Check if start and end nodes exist
+            if (startNode == null || endNode == null) {
+                System.out.println("Start or end station not found");
+                return null;
+            }
+
+            // Check if start and end nodes are the same
+            if (startNode.equals(endNode)) {
+                System.out.println("Start and end stations are the same");
+                return null;
+            }
+
+            // Traverse the graph using BFS
+            List<GraphNodes<Station>> path = GraphNodes.dijkstra(startNode, endNode);
+
+            // If the path is null, no route exists between the two stations
+            if (path == null) {
+                System.out.println("No route exists between " + startNode.station.getStationName() + " and " + endNode.station.getStationName());
+                return null;
+            }
+
+            // Construct the list of stations in the path
+            List<Station> stationPath = new ArrayList<>();
+            for (GraphNodes<Station> node : path) {
+                stationPath.add(node.station);
+            }
+
+            // Print the route
+            System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+
+            // Add the route to the UI list view
+            routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+            for (Station station : stationPath) {
+                System.out.println("- " + station.getStationName());
+                routeView.getItems().add("- " + station.getStationName());
+            }
+
+            // Return the path
+            return stationPath;
 
         }
 
@@ -126,7 +220,7 @@ import javafx.scene.image.ImageView;
     Map<Integer, List<Station>> stationsById = new HashMap<>();
     @FXML
     public void ReadDataFromCSV() throws Exception{ //fillListWithStations
-        String filepath = "src/main/java/com/example/brendanrendijsca2/London.csv";
+        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\London.csv";
         String splitCSVBy = ",";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
@@ -144,10 +238,13 @@ import javafx.scene.image.ImageView;
             bufferedReader.close();
     }
 
-    public void createNodeEdges() throws Exception {
-        String filepath = "src/main/java/com/example/brendanrendijsca2/Lines.csv";
+    public void createAdjacentNodeEdges() throws Exception {
+
+        // Define the filepath of the CSV file and the separator.
+        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\Lines.csv";
         String splitCSVBy = ",";
 
+        // Read the CSV file and create edges between nodes.
         BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
         String line = "";
         line = bufferedReader.readLine();
@@ -157,11 +254,10 @@ import javafx.scene.image.ImageView;
             int destinationID = Integer.parseInt(values[1]);
             int lineID = Integer.parseInt(values[2]);
 
-
+            // Find the start node and destination node in the station list.
             GraphNodes<Station> startNode = null;
             GraphNodes<Station> destinationNode = null;
             for (GraphNodes<Station> node : stationList) {
-
                 if (node.station.getID() == startID) {
                     startNode = node;
                 }
@@ -170,10 +266,12 @@ import javafx.scene.image.ImageView;
                 }
             }
 
+            // Create an undirected edge between the start node and destination node.
             if (startNode != null && destinationNode != null) {
                 startNode.connectToNodeUndirected(destinationNode, lineID);
             }
 
+            // Store the stations by line number.
             int lineNumber = -1;
             for (GraphNodes<Station> node : stationList) {
                 if (node.station.getID() == startID) {
@@ -181,7 +279,6 @@ import javafx.scene.image.ImageView;
                     break;
                 }
             }
-
             if (lineNumber != -1) {
                 List<Station> stationLineNumber = stationsById.get(lineNumber);
                 if (stationLineNumber == null) {
@@ -191,20 +288,22 @@ import javafx.scene.image.ImageView;
                 Station startStation = startNode.station;
                 Station endStation = destinationNode != null ? destinationNode.station : null;
 
+                // Add the start station to the station list for the line number.
                 if (!stationLineNumber.contains(startStation)) {
                     stationLineNumber.add(startStation);
                 }
+
+                // Add the end station to the station list for the line number.
                 if (endStation != null && !stationLineNumber.contains(endStation)) {
                     stationLineNumber.add(endStation);
                 }
             }
-
         }
     }
         @FXML
         private void LoadData(ActionEvent event) throws Exception {
             ReadDataFromCSV();
-            createNodeEdges();
+            createAdjacentNodeEdges();
 
 
         }
