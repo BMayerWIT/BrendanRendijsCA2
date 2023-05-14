@@ -87,14 +87,6 @@ public class RouteFinderController {
             routeView.getItems().addAll(stationPaths);
         }
 
-
-
-
-
-
-
-
-
     @FXML
         public List<Station> ShowSingleRoute(ActionEvent event) {
             //clear list view
@@ -149,17 +141,6 @@ public class RouteFinderController {
             return stationPath;
         }
 
-
-
-
-
-
-
-
-        @FXML
-        void UploadImage(ActionEvent event) {
-
-        }
         public List<Station> ShowFastestRoute(ActionEvent event) {
             //clear list view
             routeView.getItems().clear();
