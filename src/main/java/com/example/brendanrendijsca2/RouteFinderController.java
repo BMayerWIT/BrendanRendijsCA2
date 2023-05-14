@@ -126,7 +126,7 @@ import javafx.scene.image.ImageView;
     Map<Integer, List<Station>> stationsById = new HashMap<>();
     @FXML
     public void ReadDataFromCSV() throws Exception{ //fillListWithStations
-        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\London.csv";
+        String filepath = "src/main/java/com/example/brendanrendijsca2/London.csv";
         String splitCSVBy = ",";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
@@ -145,7 +145,7 @@ import javafx.scene.image.ImageView;
     }
 
     public void createNodeEdges() throws Exception {
-        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\Lines.csv";
+        String filepath = "src/main/java/com/example/brendanrendijsca2/Lines.csv";
         String splitCSVBy = ",";
 
         BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
