@@ -288,7 +288,6 @@ public class RouteFinderController {
             createAdjacentNodeEdges();
 
 
-
-
+        }
 
 }
