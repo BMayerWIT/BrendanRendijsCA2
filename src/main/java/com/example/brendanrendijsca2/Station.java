@@ -26,6 +26,22 @@ public class Station {
         return ID;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
     public float getLatitude() {
         return latitude;
     }
