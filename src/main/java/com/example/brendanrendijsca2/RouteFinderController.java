@@ -36,6 +36,8 @@ public class RouteFinderController {
 
         private Image defaultImage;
         private WritableImage writtenImage;
+        List<GraphNodes<Station>> stationList = new ArrayList<>();
+        Map<Integer, List<Station>> stationsById = new HashMap<>();
 
         @FXML
         void SelectEndPoint(ActionEvent event) {
@@ -210,6 +212,7 @@ public class RouteFinderController {
                     System.out.println("- " + station.getStationName());
                     routeView.getItems().add("- " + station.getStationName());
                 }
+                routeView.getItems().add("Route from " + waypointNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
                 for (Station station : waypointToEndPath) {
                     System.out.println("- " + station.getStationName());
                     routeView.getItems().add("- " + station.getStationName());
@@ -280,8 +283,6 @@ public class RouteFinderController {
 
 
 
-    List<GraphNodes<Station>> stationList = new ArrayList<>();
-    Map<Integer, List<Station>> stationsById = new HashMap<>();
     @FXML
     public void ReadDataFromCSV() throws Exception{ //fillListWithStations
         defaultImage = ImageView.getImage();
