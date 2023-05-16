@@ -6,7 +6,6 @@ public class GraphNodes<T> {
     public T station;
 
     public int line;
-//    public List<GraphLinks> adjList = new ArrayList<>();
     public List<GraphNodes<T>> neighbours = new ArrayList<>();
     private GraphNodes<T> parent;
 

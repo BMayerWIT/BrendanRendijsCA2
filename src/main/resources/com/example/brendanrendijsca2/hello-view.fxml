@@ -29,12 +29,8 @@
       </font>
    </Button>
    <ListView fx:id="routeView" layoutX="48.0" layoutY="461.0" prefHeight="200.0" prefWidth="422.0" />
-   <Button layoutX="494.0" layoutY="644.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
-      <font>
-         <Font size="13.0" />
-      </font>
-   </Button>
    <Button layoutX="530.0" layoutY="452.0" mnemonicParsing="false" onAction="#LoadData" style="-fx-background-color: #FFA500;" text="Load Data" />
    <Button layoutX="683.0" layoutY="452.0" mnemonicParsing="false" onAction="#ResetMap" style="-fx-background-color: #FFA500;" text="Reset Map" />
    <ComboBox fx:id="waypointStation" layoutX="655.0" layoutY="482.0" prefHeight="25.0" prefWidth="130.0" promptText="Waypoint" style="-fx-background-color: #FFA500;" />
+   <Button layoutX="671.0" layoutY="608.0" mnemonicParsing="false" onAction="#ClearWaypoint" style="-fx-background-color: #FFA500;" text="Clear Waypoint" />
 </AnchorPane>
