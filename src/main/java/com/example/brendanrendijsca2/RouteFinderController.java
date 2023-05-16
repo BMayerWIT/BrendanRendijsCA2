@@ -16,7 +16,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
-import static com.example.brendanrendijsca2.GraphNodes.FindAllPathsDepthFirst;
 
 public class RouteFinderController {
 
@@ -28,6 +27,7 @@ public class RouteFinderController {
 
         @FXML
         private ComboBox<String> startPoint;
+
         @FXML
         private ComboBox<String> waypointStation;
 
@@ -55,50 +55,6 @@ public class RouteFinderController {
 
         }
 
-        @FXML
-        public void ShowMultipleRoutes(ActionEvent event) {
-
-            writtenImage = imageProcessor.setGrey(defaultImage);
-            ImageView.setImage(writtenImage);
-
-            routeView.getItems().clear();
-
-            // Get the selected start and end stations from the UI
-            int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
-            int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
-
-            // Get the start and end nodes from the station list using their indices
-            GraphNodes<Station> startNode = stationList.get(startStationIndex);
-            GraphNodes<Station> endNode = stationList.get(endStationIndex);
-
-            List<List<GraphNodes<Station>>> allPaths = GraphNodes.FindAllPathsDepthFirst(startNode, null, endNode.station);
-
-            if (allPaths == null || allPaths.isEmpty()) {
-                System.out.println("No route found from " + startNode + " to " + endNode);
-                return;
-            }
-
-            System.out.println("Multiple routes found from " + startNode + " to " + endNode + ":");
-            int count = 1;
-            for (List<GraphNodes<Station>> path : allPaths) {
-                System.out.println("Route " + count + ":");
-                for (GraphNodes<Station> node : path) {
-                    System.out.println(node.station);
-                }
-                count++;
-            }
-
-             //Construct the list of stations in each path and add to the list view
-            List<List<Station>> stationPaths = new ArrayList<>();
-            for (List<GraphNodes<Station>> path : allPaths) {
-                List<Station> stationPath = new ArrayList<>();
-                for (GraphNodes<Station> node : path) {
-                    stationPath.add(node.station);
-                }
-                stationPaths.add(stationPath);
-            }
-            routeView.getItems().addAll(stationPaths);
-        }
 
         @FXML
         public List<Station> ShowSingleRoute(ActionEvent event) {
