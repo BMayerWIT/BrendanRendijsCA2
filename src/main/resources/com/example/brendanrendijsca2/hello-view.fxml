@@ -16,23 +16,25 @@
       </image></ImageView>
 
  <Label fx:id="welcomeText" />
- <Button layoutX="643.0" layoutY="566.0" onAction="#ShowSingleRoute" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
+ <Button layoutX="502.0" layoutY="570.0" onAction="#ShowSingleRoute" style="-fx-background-color: #FFA500;" text="Show Single Route" textFill="#141414">
       <font>
          <Font size="13.0" />
       </font></Button>
    <Label fx:id="number" layoutX="172.0" layoutY="511.0" prefHeight="26.0" prefWidth="53.0" style="-fx-text-fill: #FFFFFF;" />
-   <ComboBox fx:id="startPoint" layoutX="631.0" layoutY="478.0" onAction="#SelectStartPoint" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
-   <ComboBox fx:id="EndPoint" layoutX="631.0" layoutY="512.0" onAction="#SelectEndPoint" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
-   <Button layoutX="642.0" layoutY="603.0" onAction="#ShowFastestRoute" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
+   <ComboBox fx:id="startPoint" layoutX="490.0" layoutY="482.0" onAction="#SelectStartPoint" prefWidth="150.0" promptText="Start Point" style="-fx-background-color: #FFA500;" />
+   <ComboBox fx:id="EndPoint" layoutX="490.0" layoutY="516.0" onAction="#SelectEndPoint" prefWidth="150.0" promptText="End Point" style="-fx-background-color: #FFA500;" />
+   <Button layoutX="501.0" layoutY="607.0" onAction="#ShowFastestRoute" style="-fx-background-color: #FFA500;" text="Show Fastest Route">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
-   <ListView fx:id="routeView" layoutX="190.0" layoutY="460.0" prefHeight="200.0" prefWidth="422.0" />
-   <Button layoutX="635.0" layoutY="640.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
+   <ListView fx:id="routeView" layoutX="48.0" layoutY="461.0" prefHeight="200.0" prefWidth="422.0" />
+   <Button layoutX="494.0" layoutY="644.0" onAction="#ShowMultipleRoutes" style="-fx-background-color: #FFA500;" text="Show Multiple Routes">
       <font>
          <Font size="13.0" />
       </font>
    </Button>
-   <Button layoutX="671.0" layoutY="448.0" mnemonicParsing="false" onAction="#LoadData" style="-fx-background-color: #FFA500;" text="Load Data" />
+   <Button layoutX="530.0" layoutY="452.0" mnemonicParsing="false" onAction="#LoadData" style="-fx-background-color: #FFA500;" text="Load Data" />
+   <Button layoutX="683.0" layoutY="452.0" mnemonicParsing="false" onAction="#ResetMap" style="-fx-background-color: #FFA500;" text="Reset Map" />
+   <ComboBox fx:id="waypointStation" layoutX="655.0" layoutY="482.0" prefHeight="25.0" prefWidth="130.0" promptText="Waypoint" style="-fx-background-color: #FFA500;" />
 </AnchorPane>

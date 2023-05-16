@@ -12,8 +12,8 @@ import java.io.Writer;
 
 public class imageProcessor {
 
-    public void setGrey() {
-        Image originalImage = ImageView.getImage();
+    public static WritableImage setGrey(Image image) {
+        Image originalImage = image;
 
         int width = (int) originalImage.getWidth();
         int height = (int) originalImage.getHeight();
@@ -30,7 +30,7 @@ public class imageProcessor {
             }
         }
 
-        ImageView.setImage(grayImage);
+        return grayImage;
     }
 
 

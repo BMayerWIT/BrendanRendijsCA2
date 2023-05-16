@@ -27,15 +27,15 @@ public class RouteFinderController {
         private ImageView ImageView;
 
         @FXML
-        private Label number;
-
-        @FXML
         private ComboBox<String> startPoint;
-
         @FXML
-        private Label welcomeText;
+        private ComboBox<String> waypointStation;
+
         @FXML
         private ListView routeView;
+
+        private Image defaultImage;
+        private WritableImage writtenImage;
 
         @FXML
         void SelectEndPoint(ActionEvent event) {
@@ -48,7 +48,17 @@ public class RouteFinderController {
         }
 
         @FXML
+        void ResetMap(ActionEvent event) {
+            ImageView.setImage(defaultImage);
+
+        }
+
+        @FXML
         public void ShowMultipleRoutes(ActionEvent event) {
+
+            writtenImage = imageProcessor.setGrey(defaultImage);
+            ImageView.setImage(writtenImage);
+
             routeView.getItems().clear();
 
             // Get the selected start and end stations from the UI
@@ -88,18 +98,31 @@ public class RouteFinderController {
             routeView.getItems().addAll(stationPaths);
         }
 
-    @FXML
+        @FXML
         public List<Station> ShowSingleRoute(ActionEvent event) {
+
+            writtenImage = imageProcessor.setGrey(defaultImage);
+            ImageView.setImage(writtenImage);
+
             //clear list view
             routeView.getItems().clear();
 
             // Get the selected start and end stations from the UI
             int startStationIndex = startPoint.getSelectionModel().getSelectedIndex();
             int endStationIndex = EndPoint.getSelectionModel().getSelectedIndex();
+            int waypointIndex = waypointStation.getSelectionModel().getSelectedIndex();
 
             // Get the start and end nodes from the station list using their indices
             GraphNodes<Station> startNode = stationList.get(startStationIndex);
             GraphNodes<Station> endNode = stationList.get(endStationIndex);
+            GraphNodes<Station> waypointNode = null;
+            if (waypointIndex != -1) {
+                GraphNodes<Station> waypointValidNode = stationList.get(waypointIndex);
+                waypointNode = waypointValidNode;
+            }
+
+
+            List<Station> stationRoute = new ArrayList<>();
 
             // Check if start and end nodes exist
             if (startNode == null || endNode == null) {
@@ -113,36 +136,95 @@ public class RouteFinderController {
                 return null;
             }
 
-            // Traverse the graph using BFS
-            List<GraphNodes<Station>> path = GraphNodes.TraverseGraphBreadthFirst(startNode, endNode);
+            List<GraphNodes<Station>> noWaypointPath = null;
+            List<GraphNodes<Station>> startToWaypoint = null;
+            List<GraphNodes<Station>> waypointToEnd = null;
 
-            // If the path is null, no route exists between the two stations
-            if (path == null) {
-                System.out.println("No route exists between " + startNode.station.getStationName() + " and " + endNode.station.getStationName());
-                return null;
+            if (waypointNode != null) {
+                // Traverse the graph using BFS
+                List<GraphNodes<Station>> path = GraphNodes.TraverseGraphBreadthFirst(startNode, waypointNode);
+                List<GraphNodes<Station>> path2 = GraphNodes.TraverseGraphBreadthFirst(waypointNode, endNode);
+                startToWaypoint = path;
+                waypointToEnd = path2;
+            } else {
+                List<GraphNodes<Station>> path = GraphNodes.TraverseGraphBreadthFirst(startNode, endNode);
+                noWaypointPath = path;
             }
 
-            // Construct the list of stations in the path
-            List<Station> stationPath = new ArrayList<>();
-            for (GraphNodes<Station> node : path) {
-                stationPath.add(node.station);
+
+            if (waypointNode == null) {
+                // If the path is null, no route exists between the two stations
+                if (noWaypointPath == null) {
+                    System.out.println("No route exists between " + startNode.station.getStationName() + " and " + endNode.station.getStationName());
+                    return null;
+                }
+
+
+                // Construct the list of stations in the path
+                List<Station> stationPath = new ArrayList<>();
+                for (GraphNodes<Station> node : noWaypointPath) {
+                    stationPath.add(node.station);
+                }
+
+                stationRoute = stationPath;
+
+                // Print the route
+                System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+
+                // Add the route to the UI list view
+                routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+                for (Station station : stationPath) {
+                    System.out.println("- " + station.getStationName());
+                    routeView.getItems().add("- " + station.getStationName());
+                }
             }
 
-            // Print the route
-            System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+            if (waypointNode != null) {
+                // If the path is null, no route exists between the two stations
+                if ( startToWaypoint == null || waypointToEnd == null) {
+                    System.out.println("No route exists between " + startNode.station.getStationName() + " and " + endNode.station.getStationName());
+                    return null;
+                }
 
-            // Add the route to the UI list view
-            routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
-            for (Station station : stationPath) {
-                System.out.println("- " + station.getStationName());
-                routeView.getItems().add("- " + station.getStationName());
+
+                // Construct the list of stations in the path
+                List<Station> stationPath = new ArrayList<>();
+                List<Station> startToWaypointPath = new ArrayList<>();
+                List<Station> waypointToEndPath = new ArrayList<>();
+                for (GraphNodes<Station> node : startToWaypoint) {
+                    stationPath.add(node.station);
+                    startToWaypointPath.add(node.station);
+                }
+                for (GraphNodes<Station> node : waypointToEnd) {
+                    stationPath.add(node.station);
+                    waypointToEndPath.add(node.station);
+                }
+
+                stationRoute = stationPath;
+
+                // Print the route
+                System.out.println("Route from " + startNode.station.getStationName() + " to " + endNode.station.getStationName() + ":");
+                // Add the route to the UI list view
+                routeView.getItems().add("Route from " + startNode.station.getStationName() + " to " + waypointNode.station.getStationName() + ":");
+                for (Station station : startToWaypointPath) {
+                    System.out.println("- " + station.getStationName());
+                    routeView.getItems().add("- " + station.getStationName());
+                }
+                for (Station station : waypointToEndPath) {
+                    System.out.println("- " + station.getStationName());
+                    routeView.getItems().add("- " + station.getStationName());
+                }
             }
+
+
 
             // Return the path
-            return stationPath;
+            return stationRoute;
         }
 
         public List<Station> ShowFastestRoute(ActionEvent event) {
+            writtenImage = imageProcessor.setGrey(defaultImage);
+            ImageView.setImage(writtenImage);
             //clear list view
             routeView.getItems().clear();
 
@@ -202,7 +284,8 @@ public class RouteFinderController {
     Map<Integer, List<Station>> stationsById = new HashMap<>();
     @FXML
     public void ReadDataFromCSV() throws Exception{ //fillListWithStations
-        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\London.csv";
+        defaultImage = ImageView.getImage();
+        String filepath = "src/main/java/com/example/brendanrendijsca2/London.csv";
         String splitCSVBy = ",";
 
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filepath));
@@ -215,6 +298,7 @@ public class RouteFinderController {
                     stationList.add(stationGN);
                     startPoint.getItems().add(splitArray[3]);
                     EndPoint.getItems().add(splitArray[3]);
+                    waypointStation.getItems().add(splitArray[3]);
                 }
             }
             bufferedReader.close();
@@ -223,7 +307,7 @@ public class RouteFinderController {
     public void createAdjacentNodeEdges() throws Exception {
 
         // Define the filepath of the CSV file and the separator.
-        String filepath = "C:\\Users\\brend\\IdeaProjects\\BrendanRendijsCA2\\src\\main\\java\\com\\example\\brendanrendijsca2\\Lines.csv";
+        String filepath = "src/main/java/com/example/brendanrendijsca2/Lines.csv";
         String splitCSVBy = ",";
 
         // Read the CSV file and create edges between nodes.
